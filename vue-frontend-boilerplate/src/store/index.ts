@@ -56,8 +56,7 @@ const store = new Vuex.Store<StoreState>({
                 const response = await fetch(getBackendUrl());
 
                 if (!response.ok) {
-                    console.error(`HTTP error: ${response.status} ${response.statusText}`);
-                    return;
+                    throw new Error(`HTTP error: ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -65,6 +64,7 @@ const store = new Vuex.Store<StoreState>({
                 commit("setDrones", drones);
             } catch (error) {
                 console.error("Failed to fetch or validate drones:", error);
+                commit("setDrones", []);
             }
         },
     },
