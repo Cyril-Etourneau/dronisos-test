@@ -1,9 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import router from "./router";
+import "./registerServiceWorker";
+import "./leaflet";
+import "leaflet/dist/leaflet.css";
 
 Vue.config.productionTip = false;
 

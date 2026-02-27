@@ -15,7 +15,7 @@ const routes = [
         name: "hello-world",
         path: "/hello",
         component: HelloWorld,
-    }
+    },
 ];
 
 const router = new VueRouter({
