@@ -1,5 +1,5 @@
 <template>
-    <LMap :zoom="5" :center="[4, 8]" style="height: 100vh; width: 100%">
+    <LMap zoom="6" :center="[4, 9]" class="leaflet-map">
         <LTileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts">
-import store from "@/store";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import DroneMarker from "./DroneMarker.vue";
 
@@ -24,26 +23,18 @@ import DroneMarker from "./DroneMarker.vue";
     },
 })
 export default class Map extends Vue {
-    private droneInterval: number | null = null;
-
-    protected get drones() {
-        return store.state.drones;
-    }
-
-    mounted() {
-        // Fetch drones immediately
-        store.dispatch("fetchDrones");
-
-        // Then fetch every 5 seconds
-        this.droneInterval = window.setInterval(() => {
-            store.dispatch("fetchDrones");
-        }, 5000);
-    }
-
-    beforeDestroy() {
-        if (this.droneInterval) {
-            clearInterval(this.droneInterval);
-        }
-    }
+    @Prop({ required: true })
+    private drones!: {
+        name: string;
+        position: [number, number, number];
+        status: string;
+    }[];
 }
 </script>
+
+<style scoped>
+.leaflet-map {
+    height: 80vh;
+    width: 100%;
+}
+</style>
