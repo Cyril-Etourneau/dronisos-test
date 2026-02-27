@@ -23,9 +23,25 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
+/**
+ * Root application component.
+ *
+ * - Renders the app bar with logo, title and an info button.
+ * - Hosts the main container and the router view.
+ */
 @Component
 export default class App extends Vue {
-    protected moveToPage(name: string) {
+    /**
+     * Navigate to a named route if not already on it.
+     *
+     * @param name - The target route name.
+     * @remarks
+     * Avoids redundant navigation by checking the current route name
+     * before pushing to the router.
+     * @example
+     * this.moveToPage('drone-info');
+     */
+    protected moveToPage(name: string): void {
         if (this.$route.name !== name) {
             this.$router.push({ name });
         }

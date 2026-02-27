@@ -19,6 +19,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LIcon, LMarker, LPopup } from "vue2-leaflet";
 import L from "leaflet";
+import { Drone } from "@/drones/schema";
 
 @Component({
     components: {
@@ -27,14 +28,35 @@ import L from "leaflet";
         LPopup,
     },
 })
+/**
+ * Marker component for a single drone on a Leaflet map.
+ *
+ * Renders:
+ * - A custom Vuetify-styled circular marker colored by status severity
+ * - A popup showing drone name, status, and 3D position
+ *
+ * Coordinates:
+ * - Uses [lat, lng] = [position[1], position[0]] for the marker, position[2] as altitude (display only).
+ */
 export default class DroneMarker extends Vue {
+    /**
+     * Drone data to display.
+     *
+     * - name: unique identifier
+     * - position: [lng, lat, alt]
+     * - status: status code string
+     */
     @Prop({ required: true })
-    private drone!: {
-        name: string;
-        position: [number, number, number];
-        status: string;
-    };
+    private drone!: Drone;
 
+    /**
+     * Color associated with the drone status.
+     *
+     * Mapping:
+     * - Error: LOST_LINK, MOTOR_KO -> "red"
+     * - Warning: BAD_CONFIG, LOW_BATTERY -> "orange"
+     * - Default: "black"
+     */
     protected get warningStatus(): string {
         const status = this.drone.status;
         const errorStatuses = ["LOST_LINK", "MOTOR_KO"];
@@ -51,6 +73,12 @@ export default class DroneMarker extends Vue {
         return "black";
     }
 
+    /**
+     * Leaflet divIcon configured to look like a Vuetify mdi-circle icon.
+     *
+     * - Color bound to warningStatus
+     * - iconSize, iconAnchor, popupAnchor tuned for centered small dots
+     */
     protected get vuetifyMarker() {
         const size = 16;
 

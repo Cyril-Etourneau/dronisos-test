@@ -12,6 +12,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import DroneMarker from "./DroneMarker.vue";
+import { Drone } from "@/drones/schema";
 
 @Component({
     components: {
@@ -22,13 +23,22 @@ import DroneMarker from "./DroneMarker.vue";
         LPopup,
     },
 })
+/**
+ * Leaflet map displaying a tile layer and drone markers.
+ *
+ * Renders:
+ * - An OpenStreetMap tile layer
+ * - One DroneMarker per provided drone
+ *
+ * @remarks
+ * The map is initialized with a default zoom of 6 and centered at [4, 9].
+ */
 export default class Map extends Vue {
+    /**
+     * List of drones to display as markers on the map.
+     */
     @Prop({ required: true })
-    private drones!: {
-        name: string;
-        position: [number, number, number];
-        status: string;
-    }[];
+    private drones!: Drone[];
 }
 </script>
 

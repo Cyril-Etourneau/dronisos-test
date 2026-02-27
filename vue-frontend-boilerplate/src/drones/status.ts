@@ -1,3 +1,6 @@
+/**
+ * Defines possible states of a drone.
+ */
 enum DroneStatus {
     Ok = "OK",
     LostLink = "LOST_LINK",

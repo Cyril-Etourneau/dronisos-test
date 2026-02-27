@@ -26,14 +26,39 @@ import { Drone } from "@/drones/schema";
         Map,
     },
 })
+/**
+ * Drone info view.
+ *
+ * Displays a status filter and a map with filtered drones.
+ * Periodically refreshes the drone list via the Vuex store.
+ */
 export default class DroneInfo extends Vue {
+    /**
+     * Refresh interval ID (ms) or null when inactive.
+     */
     private droneInterval: number | null = null;
+    /**
+     * Selected statuses used to filter displayed drones.
+     */
     private filterStatus: string[] = [];
 
+    /**
+     * Drones from the Vuex store.
+     *
+     * @returns The current list of drones from the Vuex store.
+     */
     protected get drones(): Drone[] {
         return store.state.drones;
     }
 
+    /**
+     * Drones filtered by the selected statuses.
+     *
+     * - If no status is selected, returns all drones.
+     * - Otherwise, returns only drones whose status is selected.
+     *
+     * @returns The filtered list of drones.
+     */
     protected get filteredDrones(): Drone[] {
         if (this.filterStatus.length === 0) {
             return this.drones;
@@ -42,10 +67,20 @@ export default class DroneInfo extends Vue {
         return this.drones.filter((drone) => this.filterStatus.includes(drone.status));
     }
 
+    /**
+     * Available statuses for the filter (from the DroneStatus enum).
+     *
+     * @returns DroneStatus values as strings.
+     */
     protected get statuses(): string[] {
-        return [...Object.values(DroneStatus)];
+        return Object.values(DroneStatus);
     }
 
+    /**
+     * On mount:
+     * - triggers an initial fetch of drones
+     * - starts a 5s interval to refresh drones periodically
+     */
     mounted() {
         store.dispatch("fetchDrones");
 
@@ -54,6 +89,10 @@ export default class DroneInfo extends Vue {
         }, 5000);
     }
 
+    /**
+     * Before destroy:
+     * - clears the refresh interval if it exists
+     */
     beforeDestroy() {
         if (this.droneInterval) {
             clearInterval(this.droneInterval);
