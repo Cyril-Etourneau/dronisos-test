@@ -1,5 +1,5 @@
 <template>
-    <LMap zoom="6" :center="[4, 9]" class="leaflet-map">
+    <LMap :zoom="6" :center="[4, 9]" class="leaflet-map">
         <LTileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

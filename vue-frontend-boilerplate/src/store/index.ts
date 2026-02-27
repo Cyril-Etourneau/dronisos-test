@@ -63,7 +63,6 @@ const store = new Vuex.Store<StoreState>({
                 const data = await response.json();
                 const drones = validateDrones(data);
                 commit("setDrones", drones);
-                console.log("Drones fetched and validated:", drones);
             } catch (error) {
                 console.error("Failed to fetch or validate drones:", error);
             }

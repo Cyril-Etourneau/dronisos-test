@@ -50,7 +50,7 @@ describe("validateDrones", () => {
         ];
 
         for (const bad of badInputs) {
-            expect(() => validateDrones([bad as any])).toThrow(ZodError);
+            expect(() => validateDrones([bad as unknown])).toThrow(ZodError);
         }
     });
 
