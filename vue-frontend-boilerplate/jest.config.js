@@ -9,8 +9,8 @@ module.exports = {
         "^.+\\.tsx?$": "ts-jest",
     },
     moduleFileExtensions: ["ts", "tsx", "js", "json", "vue"],
-    ...pathsToModuleNameMapper(compilerOptions.paths || {}, { prefix: "<rootDir>/" }),
     moduleNameMapper: {
+        ...pathsToModuleNameMapper(compilerOptions.paths || {}, { prefix: "<rootDir>/" }),
         "^@/(.*)$": "<rootDir>/src/$1",
     },
 };

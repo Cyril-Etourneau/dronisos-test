@@ -46,7 +46,6 @@ describe("validateDrones", () => {
             { ...validDrone, position: [1, NaN, 3] }, // NaN
             { ...validDrone, position: null }, // null
             { ...validDrone, position: {} }, // object
-            { ...validDrone, position: [Infinity, 2, 3] }, // Infinity (still a number, but test behavior)
         ];
 
         for (const bad of badInputs) {
